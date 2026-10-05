@@ -1,0 +1,18 @@
+services:
+  api:
+    build: .
+    image: hospital-information-system-api
+    ports:
+      - "${PORT:-3002}:3002"
+    environment:
+      NODE_ENV: production
+      PORT: 3002
+      DB_PATH: /app/data/app.sqlite
+      JWT_SECRET: ${JWT_SECRET:-dev-hospital-secret-change-me}
+      JWT_EXPIRES_SECONDS: ${JWT_EXPIRES_SECONDS:-86400}
+    volumes:
+      - sqlite-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  sqlite-data:
