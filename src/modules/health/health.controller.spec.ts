@@ -34,7 +34,9 @@ describe('HealthController', () => {
       return Promise.resolve({ status: 'ok' });
     });
 
-    await expect(controller.check()).resolves.toEqual({ status: 'ok' });
+    const result = await controller.check();
+
+    expect(result).toEqual({ status: 'ok' });
     expect(memory.checkHeap).toHaveBeenCalledWith(
       'memory_heap',
       512 * 1024 * 1024,
