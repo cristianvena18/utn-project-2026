@@ -58,6 +58,17 @@ Specs: [`docs/contenido.md`](docs/contenido.md), [`docs/schema.sql`](docs/schema
 ## Tests
 
 ```bash
-npm run test
-npm run test:e2e
+npm run test               # unit
+npm run test:integration   # integración (SQLite en memoria)
+npm run test:e2e           # end-to-end (HTTP + AppModule completo)
+npm run test:cov           # unit con cobertura
 ```
+
+| Tipo | Qué prueba | Dependencias | Ejemplos |
+| --- | --- | --- | --- |
+| **Unit (dominio)** | Una clase pura, sin infraestructura | Ninguna | [`bed.spec.ts`](src/modules/resources/domain/bed.spec.ts), [`billing.strategy.spec.ts`](src/modules/billing/domain/billing.strategy.spec.ts) |
+| **Unit (aplicación)** | Un use case aislado | Ports reemplazados por mocks de Jest | [`assign-bed.use-case.spec.ts`](src/modules/resources/application/assign-bed.use-case.spec.ts) |
+| **Integración** | Un adapter contra infraestructura real | SQLite `:memory:` real, sin HTTP | [`bed-repository.integration-spec.ts`](test/integration/bed-repository.integration-spec.ts), [`supply-repository.integration-spec.ts`](test/integration/supply-repository.integration-spec.ts) |
+| **E2E** | Request HTTP completo: guards, pipes, filtros, DB | App entera con seed | [`app.e2e-spec.ts`](test/app.e2e-spec.ts) |
+
+Convención de nombres: `*.spec.ts` (unit, junto al código), `*.integration-spec.ts` (en `test/integration/`), `*.e2e-spec.ts` (en `test/`).
