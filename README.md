@@ -16,6 +16,20 @@ npm run start:dev
 | Health | http://localhost:3002/api/health |
 | Swagger | http://localhost:3002/api/docs |
 
+## Docker
+
+```bash
+docker compose up --build -d   # construye la imagen y levanta la API en :3002
+docker compose down            # apaga; los datos quedan en el volumen
+docker compose down -v         # apaga y borra la base de datos
+```
+
+- `--build` reconstruye la imagen antes de arrancar. Usarlo la primera vez y cada vez que cambie el código o las dependencias; sin él se ejecuta la versión anterior.
+- `-d` corre en segundo plano. Ver logs con `docker compose logs -f api`.
+- La base SQLite vive en el volumen `sqlite-data` (`/app/data/app.sqlite` dentro del contenedor), separada de la carpeta local `data/`.
+- `PORT`, `JWT_SECRET` y `JWT_EXPIRES_SECONDS` se toman del shell o de `.env`. Fuera de desarrollo local, definir un `JWT_SECRET` propio.
+- No correr `npm run start:dev` y Docker a la vez: ambos usan el puerto 3002.
+
 ## Usuarios demo
 
 | Email | Password | Role |
