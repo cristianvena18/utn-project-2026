@@ -5,7 +5,11 @@ describe('BillingStrategyFactory', () => {
   const factory = new BillingStrategyFactory();
 
   it('charges 20% copay for private insurance', () => {
-    expect(factory.create(InsuranceType.PRIVATE).quote(1000)).toEqual({
+    const strategy = factory.create(InsuranceType.PRIVATE);
+
+    const quote = strategy.quote(1000);
+
+    expect(quote).toEqual({
       billedAmount: 200,
       strategy: 'PRIVATE_COPAY',
       coverageValid: true,
@@ -13,14 +17,18 @@ describe('BillingStrategyFactory', () => {
   });
 
   it('charges 0 for public coverage', () => {
-    expect(factory.create(InsuranceType.PUBLIC).quote(1000).billedAmount).toBe(
-      0,
-    );
+    const strategy = factory.create(InsuranceType.PUBLIC);
+
+    const quote = strategy.quote(1000);
+
+    expect(quote.billedAmount).toBe(0);
   });
 
   it('charges full amount without insurance', () => {
-    expect(
-      factory.create(InsuranceType.UNINSURED).quote(1000).billedAmount,
-    ).toBe(1000);
+    const strategy = factory.create(InsuranceType.UNINSURED);
+
+    const quote = strategy.quote(1000);
+
+    expect(quote.billedAmount).toBe(1000);
   });
 });

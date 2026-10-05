@@ -15,6 +15,11 @@ type HealthResponse = {
 // una SQLite en memoria con datos de demo) y le habla por HTTP con supertest,
 // igual que un cliente real. Es el tipo de test más lento, pero el único que
 // prueba que todas las piezas funcionan juntas, del request a la response.
+//
+// Todos los tests comparten una misma app y la base sembrada en beforeAll.
+// Por eso ninguno debe modificar datos con éxito: un test que escriba debe
+// crear sus propios datos (o levantar su propia app) para no volverse
+// dependiente del orden de ejecución.
 describe('API (e2e)', () => {
   let app: INestApplication<App>;
   let token: string;
