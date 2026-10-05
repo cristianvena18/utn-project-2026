@@ -3,7 +3,7 @@ import { AppointmentStatus, AppointmentStateMachine } from './appointment';
 describe('AppointmentStateMachine', () => {
   const machine = new AppointmentStateMachine();
 
-  it('allows programado to confirmado and cancelado', () => {
+  it('allows SCHEDULED -> CONFIRMED and SCHEDULED -> CANCELLED', () => {
     expect(
       machine.canTransition(
         AppointmentStatus.SCHEDULED,
@@ -18,7 +18,7 @@ describe('AppointmentStateMachine', () => {
     ).toBe(true);
   });
 
-  it('rejects attended back to scheduled', () => {
+  it('rejects ATTENDED -> SCHEDULED', () => {
     expect(
       machine.canTransition(
         AppointmentStatus.ATTENDED,
